@@ -1,14 +1,19 @@
 import random
+import time
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
+# update these variables as ideas are added
 spendMoney = -2
 goOutside = 13
 saveMoney = 3
 stayInside = 8
 
+cheapInsideOptions = 6
+cheapOutsideOptions = 11
+notCheapInsideOptions = 11
+notCheapOutsideOption = 16      #also total count of activities
 
+# classes with t/f flags?
 def options(num):
     print(num)
     if num == 1:
@@ -43,7 +48,7 @@ def options(num):
         print("Go to a thrift store")
     elif num == 13:
         print("Pick flowers and make a bouquet")
-
+    return True
 
 
 def randomSelector(weather, cheap):
@@ -60,7 +65,21 @@ def randomSelector(weather, cheap):
     elif not cheap and not weather:
         # I don't care about spending money and the weather sucks
         return random.randint(spendMoney,stayInside)
-# Press the green button in the gutter to run the script.
+
+def isOK(weather, cheap):
+    if weather and cheap:
+        if len(activities) == cheapOutsideOptions:
+            return False
+    elif weather and not cheap:
+        if len(activities) == notCheapOutsideOption:
+            return False
+    elif cheap and not weather:
+        if len(activities) == cheapInsideOptions:
+            return False
+    elif not cheap and not weather:
+        if len(activities) == notCheapInsideOptions:
+            return False
+    return True
 
 if __name__ == '__main__':
     weather = False
@@ -73,13 +92,18 @@ if __name__ == '__main__':
     if input() == 't':
         cheap = True
 
+
     activities = []
     while True:
         val = randomSelector(weather, cheap)
+        print(val)
         if val not in activities:
             activities.append(val)
             options(activities[-1])
             print("If this doesn't work, press Enter, else write 'quit'")
             if input() != '':
                 exit()
-
+            if not isOK(weather, cheap):
+                print("You've run out of ideas. Take a deep breath and let's look again.")
+                activities.clear()
+                time.sleep(2)
