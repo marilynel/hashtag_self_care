@@ -15,7 +15,6 @@ notCheapOutsideOption = 16      #also total count of activities
 
 # classes with t/f flags?
 def options(num):
-    print(num)
     if num == 1:
         print("Buy something cute from a local store")
     elif num == 2:
@@ -96,7 +95,6 @@ if __name__ == '__main__':
     activities = []
     while True:
         val = randomSelector(weather, cheap)
-        print(val)
         if val not in activities:
             activities.append(val)
             options(activities[-1])
@@ -106,4 +104,4 @@ if __name__ == '__main__':
             if not isOK(weather, cheap):
                 print("You've run out of ideas. Take a deep breath and let's look again.")
                 activities.clear()
-                time.sleep(2)
+                time.sleep(3)
